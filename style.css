@@ -1,13 +1,78 @@
+@font-face {
+    font-family: "gotham-medium";
+    src: url(gotham-medium-regular.tff);
+}
+
 body {
+    height: 100vh;
     margin: 0;
     padding: 0;
+    font-family: "gotham-medium";
+    color: white;
+    /*background-color: #152238;*/
 }
-  
-.title {
-    font-size: 35px;
+
+.main-page {
+    display: flex;
+    flex-direction: row;
+}
+
+.side-bar {
+    height: 100vh;
+    width: 20vw;
     text-align: center;
+    background-color: rgb(6, 19, 41);
+}
+
+.title {
+    font-size: 25px;
     text-decoration: none;
     font-weight: normal;
+    margin: 0;
+    padding-top: 30px;
+}
+
+.right-side {
+    height: 100vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /*Maybe add an overflow y to either this or the children*/
+    /*overflow-y: scroll;*/
+}
+
+.top-bar {
+    /*background-color: rgb(21, 34, 76);*/
+    background-image: linear-gradient(#243147, #0b1928);
+    height: 200px;
+    padding-left: 35px;
+    font-size: 40px;
+}
+
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding-top: 20px;
+    padding-right: 40px;
+    padding-bottom: 60px;
+}
+
+.add-book {
+    background-color: #243147;
+    font-size: 15px;
+    background: none;
+	color: white;
+	border: none;
+}
+
+.all-books {
+    background-color: rgb(11, 25, 40);
+    flex: 1;
+    padding-left: 35px;
+}
+
+.sub-heading {
     margin: 0;
     padding: 0;
 }
