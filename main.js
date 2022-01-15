@@ -1,8 +1,5 @@
 let allBooks = [];
 
-const addBookButton = document.querySelector(".add-book");
-addBookButton.addEventListener("click", addBook);
-
 function Book(title, author, numPages, read) {
     this.title = title;
     this.author = author;
@@ -17,22 +14,16 @@ function Book(title, author, numPages, read) {
     }
 }
 
+const addBookButton = document.querySelector(".add-book");
+addBookButton.addEventListener("click", addBook);
+
+const cancelBtn = document.querySelector(".cancel");
+cancelBtn.addEventListener("click", addBook);
+
 function addBook() {
-    // Take user's input and store Book into array
-
-    // Step 1 create a div
-    const formBox = document.createElement("div");
-    formBox.classList.add("form-box");
-
     const mainPage = document.querySelector(".main-page");
-    mainPage.classList.add("blur");
-    
-    document.body.appendChild(formBox);
+    mainPage.classList.toggle("active");
 
     const form = document.querySelector(".form-box");
-
-    const formTitle = document.createElement("h2");
-    formTitle.textContent = "Add a new book";
-    formTitle.classList.add("form-title");
-    form.appendChild(formTitle);
+    form.classList.toggle("active");
 }

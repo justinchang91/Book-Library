@@ -16,6 +16,7 @@ body {
 .main-page {
     display: flex;
     flex-direction: row;
+    transition: 0.5s;
 }
 
 .side-bar {
@@ -82,11 +83,10 @@ body {
     padding: 0;
 }
 
-.blur {
+.blur.active {
     filter: blur(15px);
     pointer-events: none;
     user-select: none;
-    transition: 0.25s;
 }
 
 .form-box {
@@ -95,7 +95,7 @@ body {
     background-color: white;
     position: absolute;
     margin: 0;
-    top: 50%;
+    top: 40%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -103,13 +103,72 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    transition: 0.1s;
+    justify-content: space-between;
+    padding: 20px 35px;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
 }
 
-.form-title {
+.form-box.active {
+    top: 50%;
+    visibility: visible;
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.form-box .form-title {
     font-size: 35px;
     text-decoration: none;
     font-weight: normal;
     margin: 0;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 25px;
+    gap: 30px;
+}
+
+.form-input .row {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.form-input .row label {
+    width: 30%;
+}
+
+.form-input .row input {
+    flex: 1;
+    height: 25px;
+    font-size: 25px;
+}
+
+.form-box .buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cancel,
+.submit {
+    padding: 15px 20px;
+    text-decoration: none;
+    border: none;
+    color: black;
+    font-size: 20px;
+}
+
+.submit {
+    background-color: rgb(30, 144, 255);
+}
+
+.submit:hover {
+    background-color: rgb(10, 124, 235);
 }
