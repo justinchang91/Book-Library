@@ -63,10 +63,16 @@ body {
 
 .add-book {
     background-color: #243147;
-    font-size: 15px;
+    font-size: 20px;
     background: none;
 	color: white;
 	border: none;
+    font-weight: bolder;
+}
+
+.add-book:hover {
+    cursor: pointer;
+    color: rgb(180,180,180);
 }
 
 .library {
@@ -89,7 +95,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 45px;
+    gap: 35px;
 }
 
 .book-holder {
@@ -119,6 +125,14 @@ body {
 .sub-heading {
     margin: 0;
     padding: 0;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+.sub-heading:hover {
+    color: rgb(180,180,180);
+    cursor: pointer;
 }
 
 .blur.active {

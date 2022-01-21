@@ -96,10 +96,21 @@ function removeAllChildNotes(parent) {
     }
 }
 
+let usedColours = [];
+let colours = ["dodgerblue", "crimson", "chartreuse", "chocolate", "cornflowerblue", "deeppink", 
+                    "blueviolet", "black", "mediumvioletred", "darkviolet"];
+
 function setBookCoverColour() {
-    const colours = ["dodgerblue", "crimson", "chartreuse", "chocolate", "cornflowerblue", "deeppink", 
-                    "blueviolet", "black", "white", "darkviolet"];
+    if (colours.length == 0) {
+        colours = usedColours;
+        usedColours = [];
+    }
 
     let colour = colours[Math.floor(Math.random() * colours.length)];
+    usedColours.push(colour);
+    let deleteIndex = colours.findIndex(desiredColour => desiredColour == colour);
+    console.log("Before: " + colours);
+    colours.splice(deleteIndex, 1);
+    console.log("After: " + colours);
     return colour;
 }
