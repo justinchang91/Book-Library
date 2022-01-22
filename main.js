@@ -5,16 +5,7 @@ function Book(title, author, genre, numPages) {
     this.author = author;
     this.genre = genre;
     this.numPages = numPages;
-    /*this.info = function() {
-        let isRead = "not read yet";
-        if (this.read) {
-            isRead = "read";
-        }
-        return `${this.title} by ${this.author}, ${numPages} pages, ${isRead}`;
-    }*/
 }
-
-
 
 const addBookButton = document.querySelector(".add-book");
 addBookButton.addEventListener("click", addBook);
@@ -58,17 +49,9 @@ function clearTextBoxes() {
     document.getElementById("numPages").value = "";
 }
 
-function addBookToScreen() {
-    const allBooksArea = document.querySelector(".book-area");
-    const bookCover = document.createElement("div");
-    bookCover.classList.add("book");
-    bookCover.textContent = allBooks[0].title;  // Get most recent book
-    allBooksArea.appendChild(bookCover);
-}
-
 function displayAllBooks() {
     const allBooksArea = document.querySelector(".book-area");
-    removeAllChildNotes(allBooksArea);
+    removeAllChildNodes(allBooksArea);
 
     allBooks.forEach(book => {
         const bookHolder = document.createElement("div");
@@ -81,6 +64,15 @@ function displayAllBooks() {
         } 
         bookCover.style.backgroundColor = book.colour;
         bookCover.textContent = book.title;
+        bookCover.addEventListener("click", function(e) {
+            if (!book.hasOwnProperty("info")) {
+                book.info = true;
+            } else {
+                book.info = !book.info;
+            }
+        });
+        bookCover.bookTitle = book.title;
+        bookCover.addEventListener("click", displayBookInfo);
         bookHolder.appendChild(bookCover);
 
         const author = document.createElement("div");
@@ -90,7 +82,7 @@ function displayAllBooks() {
     });
 }
 
-function removeAllChildNotes(parent) {
+function removeAllChildNodes(parent) {
     while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
     }
@@ -113,4 +105,45 @@ function setBookCoverColour() {
     colours.splice(deleteIndex, 1);
     console.log("After: " + colours);
     return colour;
+}
+
+function displayBookInfo(e) {
+    const bookCover = e.target;
+    const bookTitle = e.target.bookTitle;
+    let book = allBooks.find(book => book.title === bookTitle);
+    console.log(book);
+    console.log(allBooks);
+
+    if (book.info === true) {
+        bookCover.classList.toggle("active");
+        bookCover.textContent = "";
+        const bookCoverInfo = document.createElement("div");
+
+        const infoArea = document.createElement("div");
+        const genre = document.createElement("div");
+        genre.textContent = `Genre: ${book.genre}`;
+        const numPages = document.createElement("div");
+        numPages.textContent = `Pages: ${book.numPages}`;
+        infoArea.appendChild(genre);
+        infoArea.appendChild(numPages);
+        infoArea.classList.add("info-area");
+
+        const optionsArea = document.createElement("div");
+        const readCheck = document.createElement("button");
+        readCheck.textContent = "Read";
+        const removeBook = document.createElement("button");
+        removeBook.textContent = "Remove"
+        optionsArea.appendChild(readCheck);
+        optionsArea.appendChild(removeBook);
+        optionsArea.classList.add("options-area");
+
+        bookCover.appendChild(infoArea);
+        bookCover.appendChild(optionsArea);
+        //optionsArea.classList.add("options-area");
+
+    } else {
+        bookCover.classList.toggle("active");
+        removeAllChildNodes(bookCover);
+        bookCover.textContent = book.title;
+    }
 }
