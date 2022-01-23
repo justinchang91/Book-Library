@@ -7,6 +7,17 @@ function Book(title, author, genre, numPages) {
     this.numPages = numPages;
 }
 
+let greetingMessage = document.querySelector(".greeting-message");
+const date = new Date();
+const time = date.getHours();
+if (time < 12) {
+    greetingMessage.textContent = "Good morning, Justin";
+} else if (time < 18) {
+    greetingMessage.textContent = "Good afternoon, Justin";
+} else {
+    greetingMessage.textContent = "Good evening, Justin";
+}
+
 const addBookButton = document.querySelector(".add-book");
 addBookButton.addEventListener("click", addBook);
 
@@ -75,9 +86,35 @@ function displayAllBooks() {
         bookCover.addEventListener("click", displayBookInfo);
         bookHolder.appendChild(bookCover);
 
+        // const author = document.createElement("div");
+        // author.textContent = book.author;
+        // bookHolder.appendChild(author);
+        // allBooksArea.appendChild(bookHolder);
+
+        // allBooksArea.appendChild(bookHolder);
+
+        const bottomArea = document.createElement("div");
+        bottomArea.classList.add("bottom-area")
+
+        const readCircle = document.createElement("div");
+        readCircle.classList.add("read-circle");
+        bottomArea.appendChild(readCircle);
+
         const author = document.createElement("div");
         author.textContent = book.author;
-        bookHolder.appendChild(author);
+        bottomArea.appendChild(author);
+
+        const optionsIcon = document.createElement("div");
+        optionsIcon.classList.add("options-icon");
+
+        for (let i = 0; i < 3; i++) {
+            const smallDot = document.createElement("div");
+            smallDot.classList.add("small-dot");
+            optionsIcon.appendChild(smallDot);
+        }
+        bottomArea.appendChild(optionsIcon);
+
+        bookHolder.appendChild(bottomArea);
         allBooksArea.appendChild(bookHolder);
     });
 }
@@ -89,7 +126,7 @@ function removeAllChildNodes(parent) {
 }
 
 let usedColours = [];
-let colours = ["dodgerblue", "crimson", "chartreuse", "chocolate", "cornflowerblue", "deeppink", 
+let colours = ["dodgerblue", "crimson", "limegreen", "chocolate", "mediumaquamarine", 
                     "blueviolet", "black", "mediumvioletred", "darkviolet"];
 
 function setBookCoverColour() {
@@ -117,7 +154,6 @@ function displayBookInfo(e) {
     if (book.info === true) {
         bookCover.classList.toggle("active");
         bookCover.textContent = "";
-        const bookCoverInfo = document.createElement("div");
 
         const infoArea = document.createElement("div");
         const genre = document.createElement("div");
@@ -127,19 +163,21 @@ function displayBookInfo(e) {
         infoArea.appendChild(genre);
         infoArea.appendChild(numPages);
         infoArea.classList.add("info-area");
-
-        const optionsArea = document.createElement("div");
-        const readCheck = document.createElement("button");
-        readCheck.textContent = "Read";
-        const removeBook = document.createElement("button");
-        removeBook.textContent = "Remove"
-        optionsArea.appendChild(readCheck);
-        optionsArea.appendChild(removeBook);
-        optionsArea.classList.add("options-area");
-
         bookCover.appendChild(infoArea);
-        bookCover.appendChild(optionsArea);
-        //optionsArea.classList.add("options-area");
+
+        // I want to instead make a popup on a 3 dot selector
+        // const optionsArea = document.createElement("div");
+        // const readCheck = document.createElement("button");
+        // readCheck.textContent = "Read";
+        // //readCheck.addEventListener("click", )
+        // const removeBook = document.createElement("button");
+        // removeBook.textContent = "Remove"
+        // optionsArea.appendChild(readCheck);
+        // optionsArea.appendChild(removeBook);
+        // optionsArea.classList.add("options-area");
+
+        // bookCover.appendChild(infoArea);
+        // bookCover.appendChild(optionsArea);
 
     } else {
         bookCover.classList.toggle("active");
