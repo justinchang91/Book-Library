@@ -140,6 +140,32 @@ body {
     border-radius: 50%;
 }
 
+.options-menu {
+    /*width: 200px;*/
+    /*height: 230px;*/
+    background-color: rgb(21, 34, 56);
+    position: absolute;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    /*padding: 0 20px;*/
+}
+
+.options-menu.active {
+    visibility: visible;
+}
+
+.options-menu.active .option {
+    height: 30px;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
 .book {
     height: 200px;
     display: flex;

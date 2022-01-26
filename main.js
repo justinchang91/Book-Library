@@ -86,24 +86,20 @@ function displayAllBooks() {
         bookCover.addEventListener("click", displayBookInfo);
         bookHolder.appendChild(bookCover);
 
-        // const author = document.createElement("div");
-        // author.textContent = book.author;
-        // bookHolder.appendChild(author);
-        // allBooksArea.appendChild(bookHolder);
-
-        // allBooksArea.appendChild(bookHolder);
-
         const bottomArea = document.createElement("div");
         bottomArea.classList.add("bottom-area")
 
+        // Check whether you read or not
         const readCircle = document.createElement("div");
         readCircle.classList.add("read-circle");
         bottomArea.appendChild(readCircle);
 
+        // Author name
         const author = document.createElement("div");
         author.textContent = book.author;
         bottomArea.appendChild(author);
 
+        // The 3 dots options menu
         const optionsIcon = document.createElement("div");
         optionsIcon.classList.add("options-icon");
 
@@ -112,10 +108,38 @@ function displayAllBooks() {
             smallDot.classList.add("small-dot");
             optionsIcon.appendChild(smallDot);
         }
+
+        optionsIcon.addEventListener("click", loadOptions);
         bottomArea.appendChild(optionsIcon);
 
         bookHolder.appendChild(bottomArea);
         allBooksArea.appendChild(bookHolder);
+    });
+}
+
+function loadOptions(e) {
+    console.log("Mouse X position: " + e.clientX);
+    console.log("Mouse Y position: " + e.clientY);
+
+    const optionsMenu = document.querySelector(".options-menu");
+    if (e.clientX > 1600) {
+        optionsMenu.style.top = `${e.clientY}px`;
+        optionsMenu.style.left = `${e.clientX-205}px`
+    } else {
+        optionsMenu.style.top = `${e.clientY}px`;
+        optionsMenu.style.left = `${e.clientX+10}px`
+    }
+    optionsMenu.classList.toggle("active");
+    
+
+    const allOptions = document.querySelectorAll(".option");
+    allOptions.forEach(option => {
+        option.addEventListener("mouseenter", function(e) {
+            option.style.backgroundColor = "rgb(41, 54, 76)"
+        });
+        option.addEventListener("mouseout", function(e) {
+            option.style.removeProperty("background-color");
+        });
     });
 }
 
@@ -164,20 +188,6 @@ function displayBookInfo(e) {
         infoArea.appendChild(numPages);
         infoArea.classList.add("info-area");
         bookCover.appendChild(infoArea);
-
-        // I want to instead make a popup on a 3 dot selector
-        // const optionsArea = document.createElement("div");
-        // const readCheck = document.createElement("button");
-        // readCheck.textContent = "Read";
-        // //readCheck.addEventListener("click", )
-        // const removeBook = document.createElement("button");
-        // removeBook.textContent = "Remove"
-        // optionsArea.appendChild(readCheck);
-        // optionsArea.appendChild(removeBook);
-        // optionsArea.classList.add("options-area");
-
-        // bookCover.appendChild(infoArea);
-        // bookCover.appendChild(optionsArea);
 
     } else {
         bookCover.classList.toggle("active");
