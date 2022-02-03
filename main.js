@@ -42,7 +42,7 @@ function submitBook(e) {
     let genre = form.elements["genre"].value;
     let pages = form.elements["numPages"].value;
 
-    e.preventDefault();
+    e.preventDefault();  // Don't actually submit anything
 
     let book = new Book(title, author, genre, pages);
     allBooks.unshift(book);
@@ -50,7 +50,7 @@ function submitBook(e) {
     displayAllBooks();
     
     clearTextBoxes();
-    addBook();
+    addBook(); // Toggle off the form 
 }
 
 function clearTextBoxes() {
@@ -69,58 +69,61 @@ function displayAllBooks() {
         bookHolder.classList.add("book-holder");
 
         const bookCover = document.createElement("div");
-        bookCover.classList.add("book");
-        if (!book.hasOwnProperty("colour")) {
-            book.colour = setBookCoverColour();
-        } 
-        bookCover.style.backgroundColor = book.colour;
-        bookCover.textContent = book.title;
-        bookCover.addEventListener("click", function(e) {
-            if (!book.hasOwnProperty("info")) {
-                book.info = true;
-            } else {
-                book.info = !book.info;
-            }
-        });
-        bookCover.bookTitle = book.title;
-        bookCover.addEventListener("click", displayBookInfo);
+        editBookCover(bookCover, book);
         bookHolder.appendChild(bookCover);
 
         const bottomArea = document.createElement("div");
-        bottomArea.classList.add("bottom-area")
-
-        // Check whether you read or not
-        const readCircle = document.createElement("div");
-        readCircle.classList.add("read-circle");
-        bottomArea.appendChild(readCircle);
-
-        // Author name
-        const author = document.createElement("div");
-        author.textContent = book.author;
-        bottomArea.appendChild(author);
-
-        // The 3 dots options menu
-        const optionsIcon = document.createElement("div");
-        optionsIcon.classList.add("options-icon");
-
-        for (let i = 0; i < 3; i++) {
-            const smallDot = document.createElement("div");
-            smallDot.classList.add("small-dot");
-            optionsIcon.appendChild(smallDot);
-        }
-
-        optionsIcon.addEventListener("click", loadOptions);
-        bottomArea.appendChild(optionsIcon);
-
+        editBottomInfoOfBook(bottomArea, book);
         bookHolder.appendChild(bottomArea);
         allBooksArea.appendChild(bookHolder);
     });
 }
 
-function loadOptions(e) {
-    console.log("Mouse X position: " + e.clientX);
-    console.log("Mouse Y position: " + e.clientY);
+function editBookCover(bookCover, book) {
+    bookCover.classList.add("book");
+    if (!book.hasOwnProperty("colour")) {
+        book.colour = setBookCoverColour();
+    } 
+    bookCover.style.backgroundColor = book.colour;
+    bookCover.textContent = book.title;
+    bookCover.addEventListener("click", function(e) {
+        if (!book.hasOwnProperty("info")) {
+            book.info = true;
+        } else {
+            book.info = !book.info;
+        }
+    });
+    bookCover.bookTitle = book.title;
+    bookCover.addEventListener("click", displayBookInfo);
+}
 
+function editBottomInfoOfBook(bottomArea, book) {
+    bottomArea.classList.add("bottom-area")
+    // Read status circle
+    const readCircle = document.createElement("div");
+    readCircle.classList.add("read-circle");
+    bottomArea.appendChild(readCircle);
+
+    // Author name
+    const author = document.createElement("div");
+    author.textContent = book.author;
+    bottomArea.appendChild(author);
+
+    // The 3 dots options menu
+    const optionsIcon = document.createElement("div");
+    optionsIcon.classList.add("options-icon");
+
+    for (let i = 0; i < 3; i++) {
+        const smallDot = document.createElement("div");
+        smallDot.classList.add("small-dot");
+        optionsIcon.appendChild(smallDot);
+    }
+
+    optionsIcon.addEventListener("click", loadOptions);
+    bottomArea.appendChild(optionsIcon);
+}
+
+function loadOptions(e) {
     const optionsMenu = document.querySelector(".options-menu");
     if (e.clientX > 1600) {
         optionsMenu.style.top = `${e.clientY}px`;
@@ -129,9 +132,16 @@ function loadOptions(e) {
         optionsMenu.style.top = `${e.clientY}px`;
         optionsMenu.style.left = `${e.clientX+10}px`
     }
-    optionsMenu.classList.toggle("active");
-    
 
+    optionsMenu.classList.toggle("active");
+    highlightHoveredOptions();  // Make options get highlighted when mouseOver
+
+    // Add the functionality for each option here.
+    document.querySelector(".read").addEventListener("click", markAsRead);
+    
+}
+
+function highlightHoveredOptions() {
     const allOptions = document.querySelectorAll(".option");
     allOptions.forEach(option => {
         option.addEventListener("mouseenter", function(e) {
@@ -141,6 +151,14 @@ function loadOptions(e) {
             option.style.removeProperty("background-color");
         });
     });
+}
+
+function markAsRead() {
+    const readStatus = document.querySelector(".read-circle");
+    readStatus.style["background-color"] = "forestgreen";
+
+    const optionsMenu = document.querySelector(".options-menu");
+    optionsMenu.classList.toggle("active");
 }
 
 function removeAllChildNodes(parent) {
