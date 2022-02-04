@@ -5,6 +5,7 @@ function Book(title, author, genre, numPages) {
     this.author = author;
     this.genre = genre;
     this.numPages = numPages;
+    this.read = false;  // Automatically have every new book be unread
 }
 
 let greetingMessage = document.querySelector(".greeting-message");
@@ -69,7 +70,7 @@ function displayAllBooks() {
         bookHolder.classList.add("book-holder");
 
         const bookCover = document.createElement("div");
-        editBookCover(bookCover, book);
+        editBookCoverInfo(bookCover, book);
         bookHolder.appendChild(bookCover);
 
         const bottomArea = document.createElement("div");
@@ -79,7 +80,7 @@ function displayAllBooks() {
     });
 }
 
-function editBookCover(bookCover, book) {
+function editBookCoverInfo(bookCover, book) {
     bookCover.classList.add("book");
     if (!book.hasOwnProperty("colour")) {
         book.colour = setBookCoverColour();
@@ -102,6 +103,7 @@ function editBottomInfoOfBook(bottomArea, book) {
     // Read status circle
     const readCircle = document.createElement("div");
     readCircle.classList.add("read-circle");
+    // Add functionality that check's the book objects read status
     bottomArea.appendChild(readCircle);
 
     // Author name
@@ -119,11 +121,13 @@ function editBottomInfoOfBook(bottomArea, book) {
         optionsIcon.appendChild(smallDot);
     }
 
-    optionsIcon.addEventListener("click", loadOptions);
+    optionsIcon.addEventListener("click", function(e){
+        loadOptions(e, book);
+    });
     bottomArea.appendChild(optionsIcon);
 }
 
-function loadOptions(e) {
+function loadOptions(e, book) {
     const optionsMenu = document.querySelector(".options-menu");
     if (e.clientX > 1600) {
         optionsMenu.style.top = `${e.clientY}px`;
@@ -136,8 +140,12 @@ function loadOptions(e) {
     optionsMenu.classList.toggle("active");
     highlightHoveredOptions();  // Make options get highlighted when mouseOver
 
+    // Need to find out which book was clicked.
+
     // Add the functionality for each option here.
-    document.querySelector(".read").addEventListener("click", markAsRead);
+    document.querySelector(".read").addEventListener("click", function(e){
+        markAsRead(e, book);
+    });
     
 }
 
@@ -153,10 +161,27 @@ function highlightHoveredOptions() {
     });
 }
 
-function markAsRead() {
+function markAsRead(e, book) {
+    // Wrong. This marks the first book with forest green
+    // Need to edit the actual book object's attribute.
+    // 1. Get a reference to actual book object
+    // 2. Find out which book was clicked
+    console.log(book);
+
+    // Set the book object's read status
+    if (!book.hasOwnProperty("read")) {
+        book.read = true;
+    } else {
+        book.read = !book.read;
+    }
+
+    // Set the book's DOM element read status
     const readStatus = document.querySelector(".read-circle");
     readStatus.style["background-color"] = "forestgreen";
 
+    // Need to also find a way for the options menu to say either mark as read 
+    // or mark as unread depending on the book's read value.
+    // Close the optionsMenu
     const optionsMenu = document.querySelector(".options-menu");
     optionsMenu.classList.toggle("active");
 }
