@@ -99,11 +99,17 @@ function editBookCoverInfo(bookCover, book) {
 }
 
 function editBottomInfoOfBook(bottomArea, book) {
-    bottomArea.classList.add("bottom-area")
+    bottomArea.classList.add("bottom-area");
     // Read status circle
     const readCircle = document.createElement("div");
     readCircle.classList.add("read-circle");
-    // Add functionality that check's the book objects read status
+
+    // Set the colour of status circle by checking book object's read status
+    if (book.read) {
+        readCircle.style.backgroundColor = "forestgreen";
+    }
+
+    // Add the read circle to the bottom area
     bottomArea.appendChild(readCircle);
 
     // Author name
@@ -169,21 +175,15 @@ function markAsRead(e, book) {
     console.log(book);
 
     // Set the book object's read status
-    if (!book.hasOwnProperty("read")) {
-        book.read = true;
-    } else {
-        book.read = !book.read;
-    }
+    book.read = true;
 
-    // Set the book's DOM element read status
-    const readStatus = document.querySelector(".read-circle");
-    readStatus.style["background-color"] = "forestgreen";
-
-    // Need to also find a way for the options menu to say either mark as read 
-    // or mark as unread depending on the book's read value.
     // Close the optionsMenu
     const optionsMenu = document.querySelector(".options-menu");
-    optionsMenu.classList.toggle("active");
+    console.log(optionsMenu);
+    optionsMenu.classList.remove("active");
+
+    // Redisplay all the books
+    displayAllBooks();
 }
 
 function removeAllChildNodes(parent) {
