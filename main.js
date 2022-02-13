@@ -26,7 +26,6 @@ const cancelBtn = document.querySelector(".cancel");
 cancelBtn.addEventListener("click", addBook);
 
 function addBook() {
-    console.log(allBooks);
     const mainPage = document.querySelector(".main-page");
     mainPage.classList.toggle("active");
 
@@ -47,10 +46,10 @@ function submitBook(e) {
 
     let book = new Book(title, author, genre, pages);
     allBooks.unshift(book);
-    console.log(allBooks);
     displayAllBooks();
     
     clearTextBoxes();
+    document.querySelector(".form-input").reset();
     addBook(); // Toggle off the form 
 }
 
@@ -76,8 +75,11 @@ function displayAllBooks() {
         const bottomArea = document.createElement("div");
         editBottomInfoOfBook(bottomArea, book);
         bookHolder.appendChild(bottomArea);
+
         allBooksArea.appendChild(bookHolder);
     });
+
+    console.log(allBooks);
 }
 
 function editBookCoverInfo(bookCover, book) {
@@ -100,89 +102,52 @@ function editBookCoverInfo(bookCover, book) {
 
 function editBottomInfoOfBook(bottomArea, book) {
     bottomArea.classList.add("bottom-area");
-    // Read status circle
-    const readCircle = document.createElement("div");
-    readCircle.classList.add("read-circle");
-
-    // Set the colour of status circle by checking book object's read status
-    if (book.read) {
-        readCircle.style.backgroundColor = "forestgreen";
-    }
-
-    // Add the read circle to the bottom area
-    bottomArea.appendChild(readCircle);
-
+    
     // Author name
     const author = document.createElement("div");
     author.textContent = book.author;
     bottomArea.appendChild(author);
 
-    // The 3 dots options menu
-    const optionsIcon = document.createElement("div");
-    optionsIcon.classList.add("options-icon");
+    // Options
+    const optionsRow = document.createElement("div");
+    optionsRow.classList.add("options-row");
 
-    for (let i = 0; i < 3; i++) {
-        const smallDot = document.createElement("div");
-        smallDot.classList.add("small-dot");
-        optionsIcon.appendChild(smallDot);
-    }
-
-    optionsIcon.addEventListener("click", function(e){
-        loadOptions(e, book);
-    });
-    bottomArea.appendChild(optionsIcon);
-}
-
-function loadOptions(e, book) {
-    const optionsMenu = document.querySelector(".options-menu");
-    if (e.clientX > 1600) {
-        optionsMenu.style.top = `${e.clientY}px`;
-        optionsMenu.style.left = `${e.clientX-205}px`
+    // Read button
+    const readButton = document.createElement("div");
+    readButton.classList.add("read-button");
+    if (book.read) {
+        readButton.textContent = "Read";
+        readButton.classList.add("active");
     } else {
-        optionsMenu.style.top = `${e.clientY}px`;
-        optionsMenu.style.left = `${e.clientX+10}px`
+        readButton.textContent = "Unread";
     }
 
-    optionsMenu.classList.toggle("active");
-    highlightHoveredOptions();  // Make options get highlighted when mouseOver
-
-    // Need to find out which book was clicked.
-
-    // Add the functionality for each option here.
-    document.querySelector(".read").addEventListener("click", function(e){
-        markAsRead(e, book);
+    readButton.addEventListener("click", function() {
+        changeReadStatus(allBooks.indexOf(book));
     });
-    
+
+    optionsRow.appendChild(readButton);
+
+    // The delete button
+    const deleteButton = document.createElement("div");
+    deleteButton.classList.add("delete-button");
+    deleteButton.textContent = "Remove";
+
+    deleteButton.addEventListener("click", function() {
+        deleteBook(allBooks.indexOf(book));
+    });
+    optionsRow.appendChild(deleteButton);
+
+    bottomArea.appendChild(optionsRow);
 }
 
-function highlightHoveredOptions() {
-    const allOptions = document.querySelectorAll(".option");
-    allOptions.forEach(option => {
-        option.addEventListener("mouseenter", function(e) {
-            option.style.backgroundColor = "rgb(41, 54, 76)"
-        });
-        option.addEventListener("mouseout", function(e) {
-            option.style.removeProperty("background-color");
-        });
-    });
+function changeReadStatus(bookIndex) {
+    allBooks[bookIndex].read = !allBooks[bookIndex].read;
+    displayAllBooks();
 }
 
-function markAsRead(e, book) {
-    // Wrong. This marks the first book with forest green
-    // Need to edit the actual book object's attribute.
-    // 1. Get a reference to actual book object
-    // 2. Find out which book was clicked
-    console.log(book);
-
-    // Set the book object's read status
-    book.read = true;
-
-    // Close the optionsMenu
-    const optionsMenu = document.querySelector(".options-menu");
-    console.log(optionsMenu);
-    optionsMenu.classList.remove("active");
-
-    // Redisplay all the books
+function deleteBook(bookIndex) {
+    allBooks.splice(bookIndex, 1);
     displayAllBooks();
 }
 
@@ -205,9 +170,7 @@ function setBookCoverColour() {
     let colour = colours[Math.floor(Math.random() * colours.length)];
     usedColours.push(colour);
     let deleteIndex = colours.findIndex(desiredColour => desiredColour == colour);
-    console.log("Before: " + colours);
     colours.splice(deleteIndex, 1);
-    console.log("After: " + colours);
     return colour;
 }
 
@@ -215,8 +178,6 @@ function displayBookInfo(e) {
     const bookCover = e.target;
     const bookTitle = e.target.bookTitle;
     let book = allBooks.find(book => book.title === bookTitle);
-    console.log(book);
-    console.log(allBooks);
 
     if (book.info === true) {
         bookCover.classList.toggle("active");

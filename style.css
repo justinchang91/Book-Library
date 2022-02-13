@@ -98,30 +98,53 @@ body {
 
 .book-holder {
     width: 200px;
-    height: 240px;
+    height: 270px;
     background-color: #243147;
-    padding: 22px;
+    padding: 22px 22px 10px 22px;
     color: white;
     text-align: center;
     word-wrap: break-word;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 15px
 }
 
 .book-holder .bottom-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.book-holder .bottom-area .options-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.book-holder .bottom-area .read-circle {
-    height: 10px;
-    width: 10px;
-    /*background-color: forestgreen;*/
-    background-color: grey;
-    border-radius: 50%;
+.book-holder .bottom-area .read-button {
+    font-size: 15px;
+    padding: 5px;
+    border: gray solid 3px;
+    border-radius: 10px;
+    color: gray;
+    cursor: pointer;
+}
+
+.book-holder .bottom-area .read-button.active {
+    border: lime solid 3px;
+    color: lime;
+}
+
+.book-holder .bottom-area .delete-button {
+    font-size: 15px;
+    padding: 5px;
+    border: red solid 3px;
+    border-radius: 10px;
+    color: red;
+    cursor: pointer;
 }
 
 .book-holder .bottom-area .options-icon {
