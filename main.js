@@ -158,8 +158,9 @@ function removeAllChildNodes(parent) {
 }
 
 let usedColours = [];
-let colours = ["dodgerblue", "crimson", "limegreen", "chocolate", "mediumaquamarine", 
-                    "blueviolet", "black", "mediumvioletred", "darkviolet"];
+let colours = ["dodgerblue", "crimson", "limegreen", "darkorange", "saddlebrown",
+                    "blueviolet", "black", "mediumvioletred", "deepskyblue", "deeppink",
+                    "orangered", "mediumslateblue", "olivedrab"];
 
 function setBookCoverColour() {
     if (colours.length == 0) {
