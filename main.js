@@ -1,11 +1,22 @@
 let allBooks = [];
 
-function Book(title, author, genre, numPages) {
-    this.title = title;
-    this.author = author;
-    this.genre = genre;
-    this.numPages = numPages;
-    this.read = false;  // Automatically have every new book be unread
+// function Book(title, author, genre, numPages) {
+//     this.title = title;
+//     this.author = author;
+//     this.genre = genre;
+//     this.numPages = numPages;
+//     this.read = false;  // Automatically have every new book be unread
+// }
+
+class Book {
+
+    constructor(title, author, genre, numPages) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.numPages = numPages;
+        this.read = false;
+    }
 }
 
 let greetingMessage = document.querySelector(".greeting-message");
